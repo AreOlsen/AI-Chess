@@ -14,12 +14,16 @@ function onDrop(source, target){
       })
       // illegal move
     if (move === null) return 'snapback'
+    var audio = new Audio("./sounds/place.mp3");
+    audio.play();
     setTimeout(() => {
         var clonGame = boardvalidator;
-        var bestMove = mmRoot(clonGame, 5, false)[0];
+        var bestMove = mmRoot(clonGame, 50, true)[0];
         boardvalidator.move(bestMove);
         updateBoard();
+        audio.play();
     },250)
+
 };
 
 function updateBoard() {
