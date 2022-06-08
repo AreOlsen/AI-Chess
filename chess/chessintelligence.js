@@ -99,7 +99,7 @@ function mmRoot(game, depth, maximizingPlayer){
 
 function minimax(depth, maximizingPlayer, alpha, beta, clonedGame){
     if(depth == 0 || clonedGame.game_over() || clonedGame.moves().length == 0){
-        return -evaluateBoard(clonedGame.board());
+        return -SearchAllCaptures(clonedGame, alpha, beta);
     }
     if(maximizingPlayer){
       let maxEval = -Infinity;
@@ -156,3 +156,24 @@ var getPieceValue = function (piece, x, y) {
   return piece.color === 'w' ?  weights[piece.type] + pst[piece.type][y][x]:
           -(weights[piece.type] + reverseArray(pst[piece.type])[y][x])
 };
+
+
+function SearchAllCaptures(game, alpha, beta) {
+  let evaluationOfBoard = evaluateBoard(game.board());
+  if(evaluationOfBoard >= beta){
+    return beta;
+  }
+  alpha = Math.max(alpha, evaluationOfBoard);
+  let moves = game.moves({verbose : true});
+  let captureMoves = moves.filter( move => move.flags.includes( 'c' ) );
+  for(let i = 0; i < captureMoves.length; i++){
+    game.move(captureMoves[i]);
+    evaluationOfBoard = -SearchAllCaptures(game, -beta, -alpha) /* Movie magic */
+    game.undo()
+  if (evaluationOfBoard >= beta){
+    return beta;
+  }
+  alpha = Math.max(alpha, evaluationOfBoard);
+  } 
+  return alpha;
+}

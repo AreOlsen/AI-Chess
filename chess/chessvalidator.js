@@ -16,10 +16,10 @@ function onDrop(source, target){
     if (move === null) return 'snapback'
     setTimeout(() => {
         var clonGame = boardvalidator;
-        var bestMove = mmRoot(clonGame, 10, false)[0];
+        var bestMove = mmRoot(clonGame, 5, false)[0];
         boardvalidator.move(bestMove);
         updateBoard();
-    },1000)
+    },250)
 };
 
 function updateBoard() {
