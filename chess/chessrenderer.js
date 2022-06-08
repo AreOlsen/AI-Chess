@@ -8,5 +8,9 @@ config = {
 }
 var boardrenderer = Chessboard('myBoard', config)
 
-$('#resetBtn').on('click', boardrenderer.start)
-$('#resetBtn').on('click', boardvalidator.reset)
+$('#resetBtn').on('click', () => {
+    boardrenderer.start();
+    boardvalidator.reset();
+    started = false;
+    $("#strength").prop("disabled", false );
+    })

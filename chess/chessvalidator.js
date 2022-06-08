@@ -6,7 +6,14 @@ function onDragStart(source, piece, position, orientation) {
     if((boardvalidator.turn() !== 'w')) return false 
 };
 
+let started = false;
+let strength = 50;
+let div = document.getElementById("strength");
 function onDrop(source, target){
+    strength = div.value;
+    if(strength > 200 || strength < 1){ //Small safegaurd in case they manipulate using developer tools.
+        return 'snapback';
+    }
     var move = boardvalidator.move({
         from: source,
         to: target,
@@ -16,13 +23,17 @@ function onDrop(source, target){
     if (move === null) return 'snapback'
     var audio = new Audio("./sounds/place.mp3");
     audio.play();
+    if(started == false){
+        div.disabled= true;
+        started=true;
+    }
     setTimeout(() => {
         var clonGame = boardvalidator;
-        var bestMove = mmRoot(clonGame, 50, true)[0];
+        var bestMove = mmRoot(clonGame, strength, true)[0];
         boardvalidator.move(bestMove);
         updateBoard();
         audio.play();
-    },250)
+    },250);
 
 };
 

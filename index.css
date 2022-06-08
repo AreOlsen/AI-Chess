@@ -24,11 +24,29 @@ button {
     background-color: white;
     border: solid #404040 2px;
     border-radius: 4px;
+    font-family: "MonoLisa";
+    font-size: smaller;
 }
 
 button:hover{
-    background-color: aliceblue;
+    background-color: rgb(184, 185, 187);
 }
+
+#strengthDiv {
+    background-color: white;
+    border-radius: 5px;
+    padding: 7px;
+    width: 150px;
+    border: solid #404040 2px;
+    font-family: "MonoLisa";
+    font-size: smaller;
+}
+
+#settings * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 @font-face {
     font-family: "MonoLisa";
     src: url("fonts/MonoLisa-Regular.otf");
