@@ -1,92 +1,91 @@
 // https://www.chessprogramming.org/Simplified_Evaluation_Function
 var pst = {
   'p': [
-      [ 0,   0,   0,   0,   0,   0,   0,   0],
-      [50,  50,  50,  50,  50,  50,  50,  50],
-      [10,  10,  20,  30,  30,  20,  10,  10],
-      [ 5,   5,  10,  25,  25,  10,   5,   5],
-      [ 0,   0,   0,  20,  20,   0,   0,   0],
-      [ 5, - 5, -10,   0,   0, -10, - 5,   5],
-      [ 5,  10,  10, -20, -20,  10,  10,   5],
-      [ 0,   0,   0,   0,   0,   0,   0,   0]
+    [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
+    [5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0],
+    [1.0,  1.0,  2.0,  3.0,  3.0,  2.0,  1.0,  1.0],
+    [0.5,  0.5,  1.0,  2.5,  2.5,  1.0,  0.5,  0.5],
+    [0.0,  0.0,  0.0,  2.0,  2.0,  0.0,  0.0,  0.0],
+    [0.5, -0.5, -1.0,  0.0,  0.0, -1.0, -0.5,  0.5],
+    [0.5,  1.0, 1.0,  -2.0, -2.0,  1.0,  1.0,  0.5],
+    [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0]
   ],
   
   'n': [
-      [-50, -40, -30, -30, -30, -30, -40, -50],
-      [-40, -20,   0,   0,   0,   0, -20, -40],
-      [-30,   0,  10,  15,  15,  10,   0, -30],
-      [-30,   5,  15,  20,  20,  15,   5, -30],
-      [-30,   0,  15,  20,  20,  15,   0, -30],
-      [-30,   5,  10,  15,  15,  10,   5, -30],
-      [-40, -20,   0,   5,   5,   0, -20, -40],
-      [-50, -40, -30, -30, -30, -30, -40, -50]
+    [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0],
+    [-4.0, -2.0,  0.0,  0.0,  0.0,  0.0, -2.0, -4.0],
+    [-3.0,  0.0,  1.0,  1.5,  1.5,  1.0,  0.0, -3.0],
+    [-3.0,  0.5,  1.5,  2.0,  2.0,  1.5,  0.5, -3.0],
+    [-3.0,  0.0,  1.5,  2.0,  2.0,  1.5,  0.0, -3.0],
+    [-3.0,  0.5,  1.0,  1.5,  1.5,  1.0,  0.5, -3.0],
+    [-4.0, -2.0,  0.0,  0.5,  0.5,  0.0, -2.0, -4.0],
+    [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0]
   ],
 
   'b': [
-      [ -20, -10, -10, -10, -10, -10, -10, -20],
-      [ -10,   0,   0,   0,   0,   0,   0, -10],
-      [ -10,   0,   5,  10,  10,   5,   0, -10],
-      [ -10,   5,   5,  10,  10,   5,   5, -10],
-      [ -10,   0,  10,  10,  10,  10,   0, -10],
-      [ -10,  10,  10,  10,  10,  10,  10, -10],
-      [ -10,   5,   0,   0,   0,   0,   5, -10],
-      [ -20, -10, -10, -10, -10, -10, -10, -20]
+    [ -2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0],
+    [ -1.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -1.0],
+    [ -1.0,  0.0,  0.5,  1.0,  1.0,  0.5,  0.0, -1.0],
+    [ -1.0,  0.5,  0.5,  1.0,  1.0,  0.5,  0.5, -1.0],
+    [ -1.0,  0.0,  1.0,  1.0,  1.0,  1.0,  0.0, -1.0],
+    [ -1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0, -1.0],
+    [ -1.0,  0.5,  0.0,  0.0,  0.0,  0.0,  0.5, -1.0],
+    [ -2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0]
   ],
 
   'r': [
-      [   0,   0,   0,   0,   0,   0,   0,   0],
-      [   5,  10,  10,  10,  10,  10,  10,   5],
-      [ - 5,   0,   0,   0,   0,   0,   0, - 5],
-      [ - 5,   0,   0,   0,   0,   0,   0, - 5],
-      [ - 5,   0,   0,   0,   0,   0,   0, - 5],
-      [ - 5,   0,   0,   0,   0,   0,   0, - 5],
-      [ - 5,   0,   0,   0,   0,   0,   0, - 5],
-      [   0,    0,  0,   5,   5,   0,   0,   0]
+    [  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
+    [  0.5,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  0.5],
+    [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+    [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+    [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+    [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+    [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
+    [  0.0,   0.0, 0.0,  0.5,  0.5,  0.0,  0.0,  0.0]
   ],
 
   'q': [
-      [ -20, -10, -10, - 5, - 5, -10, -10, -20],
-      [ -10,   0,   0,   0,   0,   0,   0, -10],
-      [ -10,   0,   5,   5,   5,   5,   0, -10],
-      [ - 5,   0,   5,   5,   5,   5,   0, - 5],
-      [   0,   0,   5,   5,   5,   5,   0, - 5],
-      [ -10,   5,   5,   5,   5,   5,   0, -10],
-      [ -10,   0,   5,   0,   0,   0,   0, -10],
-      [ -20, -10, -10, - 5, - 5, -10, -10, -20]
+    [ -2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0],
+    [ -1.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -1.0],
+    [ -1.0,  0.0,  0.5,  0.5,  0.5,  0.5,  0.0, -1.0],
+    [ -0.5,  0.0,  0.5,  0.5,  0.5,  0.5,  0.0, -0.5],
+    [  0.0,  0.0,  0.5,  0.5,  0.5,  0.5,  0.0, -0.5],
+    [ -1.0,  0.5,  0.5,  0.5,  0.5,  0.5,  0.0, -1.0],
+    [ -1.0,  0.0,  0.5,  0.0,  0.0,  0.0,  0.0, -1.0],
+    [ -2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0]
   ],
 
   'k': [
-      [-30, -40, -40, -50, -50, -40, -40, -30],
-      [-30, -40, -40, -50, -50, -40, -40, -30],
-      [-30, -40, -40, -50, -50, -40, -40, -30],
-      [-30, -40, -40, -50, -50, -40, -40, -30],
-      [-20, -30, -30, -40, -40, -30, -30, -20],
-      [-10, -20, -20, -20, -20, -20, -20, -10],
-      [ 20,  20,   0,   0,   0,   0,  20,  20],
-      [ 20,  30,  10,   0,   0,  10,  30,  20]
+    [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+    [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+    [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+    [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
+    [ -2.0, -3.0, -3.0, -4.0, -4.0, -3.0, -3.0, -2.0],
+    [ -1.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -1.0],
+    [  2.0,  2.0,  0.0,  0.0,  0.0,  0.0,  2.0,  2.0 ],
+    [  2.0,  3.0,  1.0,  0.0,  0.0,  1.0,  3.0,  2.0 ]
   ]
 }
 
-// Weights for pieces, same source as above
 var weights = {
-  'p': 100,
-  'n': 320,
-  'b': 330,
-  'r': 500,
-  'q': 900,
+  'p': 10,
+  'n': 32,
+  'b': 33,
+  'r': 50,
+  'q': 90,
   'k':20000
 }
 
 
 
-function mmRoot(game, depth, maximizingPlayer){ 
+function mmRoot(game, depth, isMax){ 
   var legalMoves = game.moves();
   var bestMoveScore = -Infinity;
   var bestMove;
   for(let i = 0; i < legalMoves.length; i++){
     var newMove = legalMoves[i];
     game.move(newMove);
-    var val = minimax(!maximizingPlayer, depth-1, -Infinity, Infinity, game);
+    var val = minimax(depth-1, !isMax, -Infinity, Infinity, game); //Unsure if true or false is the correct one to use.
     game.undo();
     if(val >= bestMoveScore){
       bestMoveScore = val;
@@ -99,33 +98,29 @@ function mmRoot(game, depth, maximizingPlayer){
 
 function minimax(depth, maximizingPlayer, alpha, beta, clonedGame){
     if(depth == 0 || clonedGame.game_over() || clonedGame.moves().length == 0){
-        return -SearchAllCaptures(clonedGame, alpha, beta);
+        return -SearchAllCaptures(clonedGame, alpha, beta);  //SOMETHING IS WRONG, IT DOES NOT PLAY WELL. IT OFTEN OFTEN LETS US CAPTURE.
     }
     if(maximizingPlayer){
       let maxEval = -Infinity;
       for(let i = 0; i < clonedGame.moves().length; i++){
         clonedGame.move(clonedGame.moves()[i]);
-        let eval = minimax(depth-1, false, alpha, beta, clonedGame);
+        let eval = minimax(depth-1, !maximizingPlayer, alpha, beta, clonedGame);
         clonedGame.undo();
-        if(eval >= maxEval){
-          maxEval = eval;
-        }
-        alpha = Math.max(alpha, maxEval);
+        maxEval = Math.max(eval, maxEval);
+        alpha = Math.max(alpha, eval);
         if(beta<=alpha){
           break;
-        }
+        } 
         return maxEval;
       }
     } else {
       let minEval = Infinity;
       for(let i = 0; i < clonedGame.moves().length; i++){
         clonedGame.move(clonedGame.moves()[i]);
-        let eval = minimax(depth-1, true, alpha, beta, clonedGame);
+        let eval = minimax(depth-1, !maximizingPlayer, alpha, beta, clonedGame);
         clonedGame.undo();
-        if(eval <= minEval){
-          minEval = eval;
-        }
-        beta = Math.min(beta, minEval);
+        minEval = Math.min(eval, minEval);
+        beta = Math.min(beta, eval);
         if(beta<=alpha){
           break;
         }
@@ -165,7 +160,19 @@ function SearchAllCaptures(game, alpha, beta) {
   }
   alpha = Math.max(alpha, evaluationOfBoard);
   let moves = game.moves({verbose : true});
-  let captureMoves = moves.filter( move => move.flags.includes( 'c' ) );
+  let captureFlags = ['e', 'c'];
+  let captureMoves = [];
+  //Some didn't work some reason. Filters out all the capture moves. Standard capture, and en peasents.
+  for(let j = 0; j < moves.length; j++){
+    for(let k = 0; k < captureFlags.length; k++){
+      if(moves[j].flags.includes(captureFlags[k])){
+        captureMoves.push(moves[j]);
+        break;
+      }
+    }
+  }
+  //let captureMoves = captureFlags.some((el) => {moves.flags.includes(el)});
+  captureMoves = OrderMoves(captureMoves);
   for(let i = 0; i < captureMoves.length; i++){
     game.move(captureMoves[i]);
     evaluationOfBoard = -SearchAllCaptures(game, -beta, -alpha) /* Movie magic */
@@ -176,4 +183,20 @@ function SearchAllCaptures(game, alpha, beta) {
   alpha = Math.max(alpha, evaluationOfBoard);
   } 
   return alpha;
+}
+
+function OrderMoves(moves) { //Thank you nzhang98.
+  var importances = {
+    18:15,
+    16:10,
+    2:5
+  }
+  for(let i = 0; i < moves.length; i++){
+    if(moves.flags in importances){
+      moves[i].importance = importances[moves[i].flags];
+    } else{
+      moves[i].importance = 0;
+    }
+  }
+  return moves.sort((a,b) => b.importance - a.importance);
 }

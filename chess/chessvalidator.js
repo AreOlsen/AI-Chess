@@ -1,17 +1,17 @@
 var boardvalidator = new Chess();
 
 
-function onDragStart(source, piece, position, orientation) {
+function onDragStart() {
     if(boardvalidator.game_over()) return false
     if((boardvalidator.turn() !== 'w')) return false 
 };
 
 let started = false;
-let strength = 50;
+let strength = 10;
 let div = document.getElementById("strength");
 function onDrop(source, target){
     strength = div.value;
-    if(strength > 200 || strength < 1){ //Small safegaurd in case they manipulate using developer tools.
+    if(strength > 20 || strength < 1){ //Small safegaurd in case they manipulate using developer tools.
         return 'snapback';
     }
     var move = boardvalidator.move({
