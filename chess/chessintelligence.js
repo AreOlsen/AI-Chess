@@ -97,8 +97,8 @@ function mmRoot(game, depth, isMax){
 
 
 function minimax(depth, maximizingPlayer, alpha, beta, clonedGame){
-    if(depth == 0 || clonedGame.game_over() || clonedGame.moves().length == 0){
-        return -SearchAllCaptures(clonedGame, alpha, beta);  //SOMETHING IS WRONG, IT DOES NOT PLAY WELL. IT OFTEN OFTEN LETS US CAPTURE.
+    if(depth === 0 || clonedGame.game_over() || clonedGame.moves().length === 0){
+        return -SearchAllCaptures(clonedGame, alpha, beta);
     }
     if(maximizingPlayer){
       let maxEval = -Infinity;
@@ -109,11 +109,12 @@ function minimax(depth, maximizingPlayer, alpha, beta, clonedGame){
         maxEval = Math.max(eval, maxEval);
         alpha = Math.max(alpha, eval);
         if(beta<=alpha){
-          break;
+          return maxEval;
         } 
-        return maxEval;
       }
-    } else {
+      return maxEval;
+    }
+    else {
       let minEval = Infinity;
       for(let i = 0; i < clonedGame.moves().length; i++){
         clonedGame.move(clonedGame.moves()[i]);
@@ -122,10 +123,10 @@ function minimax(depth, maximizingPlayer, alpha, beta, clonedGame){
         minEval = Math.min(eval, minEval);
         beta = Math.min(beta, eval);
         if(beta<=alpha){
-          break;
+          return minEval;
         }
-        return minEval;
       }
+      return minEval;
     }
     
 };
@@ -162,7 +163,6 @@ function SearchAllCaptures(game, alpha, beta) {
   let moves = game.moves({verbose : true});
   let captureFlags = ['e', 'c'];
   let captureMoves = [];
-  //Some didn't work some reason. Filters out all the capture moves. Standard capture, and en peasents.
   for(let j = 0; j < moves.length; j++){
     for(let k = 0; k < captureFlags.length; k++){
       if(moves[j].flags.includes(captureFlags[k])){
@@ -177,10 +177,10 @@ function SearchAllCaptures(game, alpha, beta) {
     game.move(captureMoves[i]);
     evaluationOfBoard = -SearchAllCaptures(game, -beta, -alpha) /* Movie magic */
     game.undo()
-  if (evaluationOfBoard >= beta){
-    return beta;
-  }
-  alpha = Math.max(alpha, evaluationOfBoard);
+    if (evaluationOfBoard >= beta){
+      return beta;
+    }
+    alpha = Math.max(alpha, evaluationOfBoard);
   } 
   return alpha;
 }

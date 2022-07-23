@@ -28,11 +28,19 @@
     <main>
         <div id="myBoard" ></div>
         <div id="settings">
-        <button id="resetBtn">Reset.</button>
-        <div id="strengthDiv">
-            <label for="strength">Strength (between 1 and 20):</label>
-            <input type="number" id="strength" name="strength" value="10" max="20" min="1" required /> 
-        </div>
+            <button id="resetBtn">Reset.</button>
+                <div id="strengthDiv">
+                    <label for="strength">Strength (between 1 and 5):</label>
+                    <input type="number" id="strength" name="strength" value="3" max="5" min="1" required /> 
+                </div>
+            </div>
+        <div id="botMisc">
+                <div id="score">
+                    <span id ="boardEval"></span>
+                </div>
+                <div id="thinking" style="opacity: 1;">
+                    <span id="botThinking" style="opacity:0;">Thinking...</span>
+                </div>
         </div>
     </main>
 </body> 
