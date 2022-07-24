@@ -18,38 +18,90 @@ function onDrop(source, target){
         from: source,
         to: target,
         promotion: 'q' // NOTE: always promote to a queen for example simplicity
-      })
+      });
       // illegal move
     if (move === null) return 'snapback';
+
+    //Update scoring.
+    var check = checkIfOver(boardvalidator);
+    showWinner(check);
+    
     var audio = new Audio("./sounds/place.mp3");
     audio.play();
     if(started == false){
         div.disabled= true;
         started=true;
     }
+
+    //Show the THINKING BOT Indicator.
     const element  = document.getElementById("botThinking");
-    element.style.opacity='1';
-    element.color='white';
     element.innerHTML = "Thinking...";
 
+
     setTimeout(() => {
+        //Start timer 
         var startime = performance.now();
 
+        //Calculate and play best move using minimax.
         var clonGame = boardvalidator;
         var options = mmRoot(clonGame, strength, true);
         var bestMove = options[0];
         boardvalidator.move(bestMove);
+
+        //Update scoring.
+        var check1 = checkIfOver(boardvalidator);
+        showWinner(check1);
+
+        //Update the board, does not auto update when changing FEN only.
         updateBoard();
+
+        //Play chess audio for the bot moving.
         audio.play();
 
+        //End timer.
         var endtime = performance.now();
         var timeDiff = endtime-startime;
-        timeDiff/=1000;
-        console.log("Total elapsed time " + timeDiff + "s");
+        timeDiff/=1000; //Milliseconds over to seconds.
+        console.log("Total elapsed time " + timeDiff + "s"); //Print to console some stats about time.
+
+        element.innerHTML=""; //Remove the bot thinking indicator as it is not thinking anymore.
     },100);
-    element.style.opacity='0';
 };
 
 function updateBoard() {
     boardrenderer.position(boardvalidator.fen());
 };
+
+
+function checkIfOver(game){
+    var currentTurn = game.turn(); //If it is not in a draw, then check if we in checkmate.
+    if(game.in_checkmate() && !game.in_draw() && !game.in_stalemate() && !game.in_threefold_repetition()){ //Checks if the turn person is in checkmate. If it is in a checkmate. Other person is winner.
+        if(currentTurn==="b"){
+            return "w";
+        } else {
+            return "b";
+        }
+    } else if(game.game_over()){ //If it is not a checkmate, and the game is over then it is a draw.
+        return "bw";
+    } else {
+        return "";
+    }
+};
+
+
+
+function showWinner(winner){
+    if(winner==="w"){ //Nasty - replace with switch.
+        setWinner("White has won!");
+    } else if (winner==="b"){
+        setWinner("Black has won!");
+    } else if (winner==="wb" || winner === "bw"){
+        setWinner("Both won, it's a draw!");
+    } else {
+        setWinner("");
+    }
+};
+
+function setWinner(text){
+    document.getElementById("winnerWinnerChickenDinner").innerHTML = text;
+}
