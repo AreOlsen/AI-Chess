@@ -6,8 +6,9 @@ function onDragStart() {
 };
 
 let started = false;
-let strength = 10;
+let strength = 2;
 let div = document.getElementById("strength");
+
 function onDrop(source, target){
     strength = div.value;
     if(strength > 5 || strength < 1){ //Small safegaurd in case they manipulate using developer tools.
@@ -30,14 +31,22 @@ function onDrop(source, target){
     element.style.opacity='1';
     element.color='white';
     element.innerHTML = "Thinking...";
+
     setTimeout(() => {
+        var startime = performance.now();
+
         var clonGame = boardvalidator;
         var options = mmRoot(clonGame, strength, true);
         var bestMove = options[0];
         boardvalidator.move(bestMove);
         updateBoard();
         audio.play();
-    },250);
+
+        var endtime = performance.now();
+        var timeDiff = endtime-startime;
+        timeDiff/=1000;
+        console.log("Total elapsed time " + timeDiff + "s");
+    },100);
     element.style.opacity='0';
 };
 

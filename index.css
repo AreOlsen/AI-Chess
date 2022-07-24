@@ -1,6 +1,11 @@
-body {
-    background-image: url("img/backgroundcity.avif");
+html {
+    background-image: url("img/background-city.jpg");
+    background-repeat: no-repeat;
     background-size: cover;
+    height: 100vh;
+    width: 100vw;
+}
+body {
     display: flex;
     align-items: center;
     flex-direction: column;
